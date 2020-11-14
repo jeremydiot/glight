@@ -1,91 +1,57 @@
-import binascii
-
-from commons.gUsb import GUsb
-import utils.dataController as dataController
-import utils.dataFormatter as dataFormatter
-
-idProduct = 0xC08f  # id product of G403hero mouse
-
-# control transfert configuration
-bmRequestType = 0x21
-bRequest = 0x09
-wValue = 0x0211
-wIndex = 0x0001
-
-gUsb = GUsb(dataController.idVendor, idProduct)
+from commons.gDevice import GDevice
+import constants
 
 
-def disable(element=None):
-    dataPattern = ["11ff0e3d01000000000000000000000000000000",  # logo
-                   "11ff0e3d00000000000000000000000000000000"]  # scroll wheel
+class G403Hero(GDevice):
+    def __init__(self, part=None):
+        super().__init__(0xC08f, 0x21, 0x09, 0x0211, 0x0001)
 
-    dataPattern = __elementControl(dataPattern, element)
+        self.dataPatterns = {
+            "disable": ["11ff0e3d01000000000000000000000000000000",     # logo
+                        "11ff0e3d00000000000000000000000000000000"],    # scroll whell
+            "static": ["11ff0e3d0101{}0200000000000000000000",
+                       "11ff0e3d0001{}0200000000000000000000"],
+            "cycle": ["11ff0e3d01020000000000{}{}000000000000",
+                      "11ff0e3d00020000000000{}{}000000000000"],
+            "breathe": ["11ff0e3d0103{}{}00{}00000000000000",
+                        "11ff0e3d0003{}{}00{}00000000000000"],
+            "startEffect": "11ff0c5d00010{}00000000000000000000000000"}
 
-    for data in dataPattern:
-        gUsb.sendData(bmRequestType, bRequest, wValue, wIndex, binascii.unhexlify(data))
+        if (part == 0 or part == 1):
+            for key, value in self.dataPatterns.items():
+                if isinstance(value, list):
+                    del value[part]
 
+    def disable(self):
+        super().sendDataListToDevice(self.dataPatterns["disable"])
 
-def static(color=dataController.defaultColor, element=None):
-    dataPattern = ["11ff0e3d0101{}0200000000000000000000",  # logo
-                   "11ff0e3d0001{}0200000000000000000000"]  # scroll wheel
+    def static(self, color=constants.DEFAULT_COLOR):
+        for data in self.dataPatterns["static"]:
+            super().sendDataToDevice(data.format(GDevice.colorToHex(color)))
 
-    dataPattern = __elementControl(dataPattern, element)
+    def cycle(self, frequency=constants.DEFAULT_FREQUENCY, brightness=constants.DEFAULT_BRIGHTNESS):
 
-    for data in dataPattern:
-        gUsb.sendData(bmRequestType, bRequest, wValue, wIndex,
-                      binascii.unhexlify(data.format(dataController.color(color))))
+        hexFrequency = GDevice.frequencyToHex(frequency)
+        hexBrightness = GDevice.brightnessToHex(brightness)
 
+        for data in self.dataPatterns["cycle"]:
+            super().sendDataToDevice(data.format(hexFrequency, hexBrightness))
 
-def cycle(frequency=dataController.defaultFrequency,
-          brightness=dataController.defaultBrightness, element=None):
-    dataPattern = ["11ff0e3d01020000000000{}000000000000",  # logo
-                   "11ff0e3d00020000000000{}000000000000"]  # scroll wheel
+    def breathe(self, color=constants.DEFAULT_COLOR, frequency=constants.DEFAULT_FREQUENCY,
+                brightness=constants.DEFAULT_BRIGHTNESS):
 
-    dataPattern = __elementControl(dataPattern, element)
+        hexColor = GDevice.colorToHex(color)
+        hexFrequency = GDevice.frequencyToHex(frequency)
+        hexBrightness = GDevice.brightnessToHex(brightness)
 
-    frequency = dataController.frequency(frequency)
-    hexFrequency = dataFormatter.decToHex(frequency, 4)
+        for data in self.dataPatterns["breathe"]:
+            super().sendDataToDevice(data.format(hexColor, hexFrequency, hexBrightness))
 
-    brightness = dataController.brightness(brightness)
-    hexBrightness = dataFormatter.decToHex(brightness, 2)
+    def startEffect(self, state=True):
 
-    for data in dataPattern:
-        gUsb.sendData(bmRequestType, bRequest, wValue, wIndex,
-                      binascii.unhexlify(data.format(hexFrequency+hexBrightness)))
+        value = "1"  # ON
 
+        if not state:
+            value = "2"  # OFF
 
-def breathe(color=dataController.defaultColor, frequency=dataController.defaultFrequency,
-            brightness=dataController.defaultBrightness, element=None):
-    dataPattern = ["11ff0e3d0103{}00{}00000000000000",  # logo
-                   "11ff0e3d0003{}00{}00000000000000"]  # scroll wheel
-
-    dataPattern = __elementControl(dataPattern, element)
-
-    frequency = dataController.frequency(frequency)
-    hexFrequency = dataFormatter.decToHex(frequency, 4)
-
-    brightness = dataController.brightness(brightness)
-    hexBrightness = dataFormatter.decToHex(brightness, 2)
-
-    for data in dataPattern:
-        gUsb.sendData(bmRequestType, bRequest, wValue, wIndex, binascii.unhexlify(
-            data.format(dataController.color(color)+hexFrequency, hexBrightness)))
-
-
-def startEffect(state=True):
-    dataPattern = "11ff0e5d00010{}00000000000000000000000000"
-    data = ""
-
-    if state:
-        data = dataPattern.format("1")
-    else:
-        data = dataPattern.format("2")
-
-    gUsb.sendData(bmRequestType, bRequest, wValue, wIndex, binascii.unhexlify(data))
-
-
-def __elementControl(dataPattern, element):
-    if (element is not None and element < len(dataPattern) and element > -1):
-        return [dataPattern[element]]
-
-    return dataPattern
+        super().sendDataToDevice(self.dataPatterns["startEffect"].format(value))
