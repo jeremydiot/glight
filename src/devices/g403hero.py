@@ -1,5 +1,5 @@
-from commons.gDevice import GDevice
-import constants
+from src.commons.gDevice import GDevice
+import src.constants as constants
 
 
 class G403Hero(GDevice):

@@ -1,5 +1,3 @@
-import sys
-
 """
 level 0 : no messages
 level 1 : error

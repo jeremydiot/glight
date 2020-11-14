@@ -2,7 +2,7 @@ import sys
 
 import usb
 
-from commons.gLog import GLog
+from src.commons.gLog import GLog
 
 
 class GUsb:

@@ -1,9 +1,11 @@
-from commons.gDevice import GDevice
-import constants
+from src.commons.gDevice import GDevice
+import src.constants as constants
 
 
 class G213(GDevice):
+
     def __init__(self):
+
         super().__init__(0xC336, 0x21, 0x09, 0x0211, 0x0001)
 
         self.dataPatterns = {
@@ -15,9 +17,11 @@ class G213(GDevice):
             "startEffect": "11ff0c5d00010{}00000000000000000000000000"}
 
     def disable(self):
+
         super().sendDataToDevice(self.dataPatterns["disable"])
 
     def static(self, *colors):
+
         keyboardZone = "0"
 
         if(len(colors) == 0):
@@ -41,11 +45,13 @@ class G213(GDevice):
                     keyboardZone, color))
 
     def cycle(self, frequency=constants.DEFAULT_FREQUENCY):
+
         hexFrequency = GDevice.frequencyToHex(frequency)
 
         super().sendDataToDevice(self.dataPatterns["cycle"].format(hexFrequency))
 
     def wave(self, direction=0, frequency=constants.DEFAULT_FREQUENCY):
+
         directions = ["0164", "0664", "0364", "0864"]  # letf to right, right to left, center to edge, edge to center
 
         if direction > len(directions)-1 or direction < 0:
