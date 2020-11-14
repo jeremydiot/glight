@@ -1,13 +1,18 @@
-import devices.g213 as g213
-import devices.g403hero as g403hero
+from devices.g213 import G213
+from devices.g403hero import G403Hero
+# import devices.g403hero as g403hero
 
 
 def main():
 
+    G403Hero(12).static("ff00")
+
+    # G213().breathe("FF0000")
+
     # g403hero.disable()
     # g403hero.static()
     # g403hero.cycle()
-    g403hero.breathe()
+    # g403hero.breathe()
 
     # g213.static()
 
