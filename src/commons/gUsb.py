@@ -39,8 +39,6 @@ class GUsb:
     def sendData(self, bmRequestType, bRequest, wValue, wIndex, data):
 
         self.__attachDevice(wIndex)
-
         self.device.ctrl_transfer(bmRequestType, bRequest, wValue, wIndex, data)
         GLog().print_info("data sended to device")
-
         self.__detachDevice(wIndex)
