@@ -1,3 +1,5 @@
+PROGRAM_NAME = "glight"
+
 ID_VENDOR = 0x046D  # hexadecimal - logitech vendor id
 
 DEFAULT_FREQUENCY = 10000  # millisecond - 1000 to 20000

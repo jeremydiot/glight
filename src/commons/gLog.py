@@ -12,6 +12,7 @@ class GLog():
     DEFAULT_LEVEL = 1
 
     def __init__(self, level=None):
+
         if isinstance(level, int) and level > -1 and level < 4:
             GLog.DEFAULT_LEVEL = level
             self.print_info("Log level "+str(level))
@@ -25,5 +26,6 @@ class GLog():
             print("[x] Debug : " + message)
 
     def print_info(self, message):
+        # self.frameinfo = getframeinfo(currentframe())
         if GLog.DEFAULT_LEVEL > 2:
-            print("(i) Info : " + message)
+            print("(i) Info: " + message)

@@ -12,5 +12,8 @@ setup(
     url='https://github.com/jeremydiot/logitechColor',
     packages=['src', 'src.devices', 'src.commons'],
     license="MIT",
-    platforms='ALL'
+    platforms='ALL',
+    entry_points={
+        'console_scripts': ['gcolor=src.cli.main:main'],
+    }
 )
