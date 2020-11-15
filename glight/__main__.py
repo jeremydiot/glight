@@ -1,9 +1,9 @@
 import sys
 import argparse
 
-import src.constants as constants
-import src.cli.g213 as g213Cli
-import src.cli.g403hero as g403heroCli
+import glight.constants as constants
+import glight.cli.g213 as g213Cli
+import glight.cli.g403hero as g403heroCli
 
 
 def main():

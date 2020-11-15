@@ -1,7 +1,7 @@
 import binascii
 
-from src.commons.gUsb import GUsb
-import src.constants as constants
+from glight.commons.gUsb import GUsb
+import glight.constants as constants
 
 
 class GDevice:

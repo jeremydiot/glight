@@ -1,7 +1,7 @@
 import argparse
 
-import src.constants as constants
-from src.devices.g213 import G213 as G213Device
+import glight.constants as constants
+from glight.devices.g213 import G213 as G213Device
 
 
 def define(subParsers):

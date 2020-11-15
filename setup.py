@@ -1,6 +1,6 @@
 from setuptools import setup
 
-import src.constants as constants
+import glight.constants as constants
 
 setup(
     name=constants.PROGRAM_NAME,
@@ -11,10 +11,10 @@ setup(
     keywords='logitech device color light rgb led',
     description='Python package to control lights on Logitech devices',
     url='https://github.com/jeremydiot/logitechColor',
-    packages=['src', 'src.devices', 'src.commons'],
+    packages=['glight', 'glight.devices', 'glight.commons', 'glight.cli'],
     license="MIT",
     platforms='ALL',
     entry_points={
-        'console_scripts': [constants.PROGRAM_NAME+'=src.__main__:main'],
+        'console_scripts': [constants.PROGRAM_NAME+'=glight.__main__:main'],
     }
 )

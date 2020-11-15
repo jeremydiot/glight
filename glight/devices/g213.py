@@ -1,5 +1,5 @@
-from src.commons.gDevice import GDevice
-import src.constants as constants
+from glight.commons.gDevice import GDevice
+import glight.constants as constants
 
 
 class G213(GDevice):
