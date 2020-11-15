@@ -1,6 +1,5 @@
 from setuptools import setup
 
-import src
 import src.constants as constants
 
 setup(
