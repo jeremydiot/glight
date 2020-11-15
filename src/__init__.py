@@ -1,1 +1,3 @@
-__version__ = "0.0.1"
+import src.constants as constants
+
+__version__ = constants.VERSION

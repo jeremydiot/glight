@@ -1,3 +1,5 @@
+VERSION = "0.0.1"
+
 PROGRAM_NAME = "glight"
 
 ID_VENDOR = 0x046D  # hexadecimal - logitech vendor id
