@@ -9,11 +9,15 @@ Python package to control lights on Logitech devices
 - pyusb1.1.0
 - python3.8
 
-## Installation
+## Install and remove
+
+install glight package
+
+add service to run glight command on startup
+
 ```bash
-$ python3 setup.py test
-$ python3 setup.py bdist_wheel # generate package
-$ sudo pip3 install ./dist/*.whl # install package
+$ ./install.sh
+$ ./uninstall.sh
 ```
 
 ## Usage

@@ -1,0 +1,38 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:           docker
+# Required-Start:     
+# Required-Stop:      
+# Default-Start:      2 3 4 5
+# Default-Stop:       0 1 6
+# Short-Description:  control lights on Logitech devices
+### END INIT INFO
+
+export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
+
+. /lib/lsb/init-functions
+
+case "$1" in
+ 
+        start)
+                glight g213 --static
+                glight g403hero --static
+                ;;
+ 
+        restart|reload|force-reload|stop)
+                echo "$1"
+                ;;
+ 
+        force-stop)
+                echo "$1"
+                ;;
+ 
+        status)
+                echo "$1"
+                ;;
+        *)
+                echo "Usage: /etc/init.d/$daemon_NAME {start|stop|force-stop|restart|reload|force-reload|status}"
+                exit 1
+                ;;
+esac
