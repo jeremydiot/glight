@@ -22,8 +22,8 @@ $ ./uninstall.sh
 
 ## Usage
 ```
-$ sudo python3 -m ./glight --help
-$ sudo python3 -m ./glight g213 --static
+$ sudo python3 -m glight --help
+$ sudo python3 -m glight g213 --static
 
 $ sudo glight g213 --static
 $ sudo glight g213 --help
